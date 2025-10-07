@@ -152,8 +152,8 @@ async function submitQuiz() {
 
     const monthlyCallsValue = callsMapping[answers.q1] || 185;
 
-    // Redirect to main page with calculator pre-filled
-    window.location.href = `index.html?calls=${monthlyCallsValue}&email=${encodeURIComponent(email)}&source=quiz`;
+    // Redirect to main page plan section with data for calculator
+    window.location.href = `index.html?calls=${monthlyCallsValue}&email=${encodeURIComponent(email)}&source=quiz#plan`;
 }
 
 // Initialize
