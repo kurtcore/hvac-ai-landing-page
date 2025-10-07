@@ -218,10 +218,16 @@ body {
 
 .plan-steps {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .plan-steps {
+        grid-template-columns: 1fr;
+    }
 }
 
 .step {
