@@ -147,25 +147,42 @@ function calculateROI() {
 
 // Initialize calculator when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    const calculatorInputs = ['monthly-calls', 'avg-job-value', 'missed-rate'];
-    calculatorInputs.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener('input', function() {
-                // Update slider background if it's the range slider
-                if (input.type === 'range') {
-                    updateSliderBackground(input);
-                }
-                calculateROI();
-            });
-        }
-    });
-
-    // Initialize slider background
     const slider = document.getElementById('monthly-calls');
+    const manualInput = document.getElementById('manual-calls');
+
+    // Sync slider to manual input
+    if (manualInput) {
+        manualInput.addEventListener('input', function() {
+            const value = parseInt(this.value) || 0;
+            const clampedValue = Math.max(0, Math.min(1000, value));
+            if (slider) {
+                slider.value = clampedValue;
+                updateSliderBackground(slider);
+            }
+            calculateROI();
+        });
+    }
+
+    // Sync manual input to slider
     if (slider) {
+        slider.addEventListener('input', function() {
+            if (manualInput) {
+                manualInput.value = this.value;
+            }
+            updateSliderBackground(this);
+            calculateROI();
+        });
         updateSliderBackground(slider);
     }
+
+    // Other calculator inputs
+    const otherInputs = ['avg-job-value', 'missed-rate'];
+    otherInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('input', calculateROI);
+        }
+    });
 
     // Run initial calculation with default values
     calculateROI();
