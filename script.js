@@ -102,3 +102,47 @@ document.querySelectorAll('.cta-button').forEach((btn, index) => {
 document.querySelectorAll('.cta-button-large').forEach((btn, index) => {
     btn.addEventListener('click', () => trackCTAClick(`section-cta-${index + 1}`));
 });
+
+// ROI Calculator Functionality
+function calculateROI() {
+    const monthlyCalls = parseInt(document.getElementById('monthly-calls').value) || 0;
+    const avgJobValue = parseInt(document.getElementById('avg-job-value').value) || 0;
+    const missedRate = parseInt(document.getElementById('missed-rate').value) || 0;
+
+    const missedCallsMonthly = monthlyCalls * (missedRate / 100);
+    const monthlyLoss = missedCallsMonthly * avgJobValue;
+    const annualLoss = monthlyLoss * 12;
+    const recoveryRate = 0.8; // 80% recovery rate from our solution
+    const recoveredAnnual = annualLoss * recoveryRate;
+    const investment = 5997; // Annual investment
+    const roiMultiple = recoveredAnnual > 0 ? (recoveredAnnual / investment).toFixed(1) : 0;
+
+    // Update DOM with formatted values
+    document.getElementById('monthly-loss').textContent = '$' + monthlyLoss.toLocaleString();
+    document.getElementById('annual-loss').textContent = '$' + annualLoss.toLocaleString();
+    document.getElementById('recovered-annual').textContent = '$' + recoveredAnnual.toLocaleString();
+    document.getElementById('roi-multiple').textContent = roiMultiple + '×';
+
+    // Add highlight effect when values change
+    const resultsElements = ['monthly-loss', 'annual-loss', 'recovered-annual', 'roi-multiple'];
+    resultsElements.forEach(id => {
+        const element = document.getElementById(id).parentElement;
+        element.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            element.style.transform = 'scale(1)';
+        }, 200);
+    });
+}
+
+// Initialize calculator when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    const calculatorInputs = ['monthly-calls', 'avg-job-value', 'missed-rate'];
+    calculatorInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('input', calculateROI);
+        }
+    });
+    // Run initial calculation with default values
+    calculateROI();
+});
