@@ -287,9 +287,18 @@
 
             <div class="calculator-card">
                 <div class="calculator-inputs">
-                    <div class="input-group">
+                    <div class="input-group slider-group">
                         <label for="monthly-calls">How many calls do you get per month?</label>
-                        <input type="number" id="monthly-calls" value="50" min="10" max="500">
+                        <div class="slider-container">
+                            <input type="range" id="monthly-calls" value="150" min="50" max="800" step="10">
+                            <div class="slider-value"><span id="calls-display">150</span> calls/month</div>
+                        </div>
+                        <div class="slider-labels">
+                            <span class="label-small">~$500K revenue</span>
+                            <span class="label-medium">~$1M</span>
+                            <span class="label-large">~$2.5M</span>
+                            <span class="label-xlarge">~$5M</span>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label for="avg-job-value">What's your average job value?</label>

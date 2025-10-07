@@ -104,10 +104,21 @@ document.querySelectorAll('.cta-button-large').forEach((btn, index) => {
 });
 
 // ROI Calculator Functionality
+function updateSliderBackground(slider) {
+    const value = slider.value;
+    const min = slider.min;
+    const max = slider.max;
+    const percentage = ((value - min) / (max - min)) * 100;
+    slider.style.background = `linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) ${percentage}%, #e2e8f0 ${percentage}%, #e2e8f0 100%)`;
+}
+
 function calculateROI() {
     const monthlyCalls = parseInt(document.getElementById('monthly-calls').value) || 0;
     const avgJobValue = parseInt(document.getElementById('avg-job-value').value) || 0;
     const missedRate = parseInt(document.getElementById('missed-rate').value) || 0;
+
+    // Update slider display value
+    document.getElementById('calls-display').textContent = monthlyCalls;
 
     const missedCallsMonthly = monthlyCalls * (missedRate / 100);
     const monthlyLoss = missedCallsMonthly * avgJobValue;
@@ -140,9 +151,22 @@ document.addEventListener('DOMContentLoaded', function() {
     calculatorInputs.forEach(id => {
         const input = document.getElementById(id);
         if (input) {
-            input.addEventListener('input', calculateROI);
+            input.addEventListener('input', function() {
+                // Update slider background if it's the range slider
+                if (input.type === 'range') {
+                    updateSliderBackground(input);
+                }
+                calculateROI();
+            });
         }
     });
+
+    // Initialize slider background
+    const slider = document.getElementById('monthly-calls');
+    if (slider) {
+        updateSliderBackground(slider);
+    }
+
     // Run initial calculation with default values
     calculateROI();
 });
