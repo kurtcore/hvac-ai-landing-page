@@ -683,6 +683,14 @@ body {
     color: var(--text-dark);
 }
 
+.calculator-note {
+    font-size: 14px;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
 .calculator-card {
     max-width: 900px;
     margin: 0 auto;
