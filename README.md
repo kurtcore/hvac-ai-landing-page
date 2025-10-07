@@ -47,7 +47,7 @@ Based on HVAC industry research, this landing page specifically addresses:
 ## 🛠️ Customization Guide
 
 ### Update Your Branding
-1. Change `HVAC AI Pro` in `index.html` to your company name
+1. Change `AI Core Automation` in `index.html` to your company name
 2. Update colors in `styles.css` CSS variables:
    ```css
    --primary-color: #1e40af;
