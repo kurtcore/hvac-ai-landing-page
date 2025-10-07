@@ -145,10 +145,47 @@ function calculateROI() {
     });
 }
 
+// Get URL parameters
+function getURLParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
 // Initialize calculator when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     const slider = document.getElementById('monthly-calls');
     const manualInput = document.getElementById('manual-calls');
+
+    // Check for URL parameters from quiz
+    const callsFromQuiz = getURLParameter('calls');
+    const emailFromQuiz = getURLParameter('email');
+    const source = getURLParameter('source');
+
+    // If coming from quiz, scroll to calculator and prefill
+    if (source === 'quiz' && callsFromQuiz) {
+        const callsValue = parseInt(callsFromQuiz);
+        if (slider) {
+            slider.value = callsValue;
+            updateSliderBackground(slider);
+        }
+        if (manualInput) {
+            manualInput.value = callsValue;
+        }
+
+        // Scroll to calculator section
+        setTimeout(() => {
+            const calculatorSection = document.querySelector('.roi-calculator');
+            if (calculatorSection) {
+                calculatorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 500);
+
+        // Show welcome message if email provided
+        if (emailFromQuiz) {
+            console.log('Welcome back!', emailFromQuiz);
+            // You can add a toast notification here if desired
+        }
+    }
 
     // Sync slider to manual input
     if (manualInput) {
